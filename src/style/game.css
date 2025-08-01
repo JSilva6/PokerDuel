@@ -1,0 +1,122 @@
+/* Card front styling */
+.card {
+  width: 3.5rem;
+  height: 5rem;
+  background-color: #fff;
+  border: 1px solid #374151;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.card-symbol {
+  font-size: 1.25rem;
+}
+.card-rank {
+  font-weight: 700;
+  margin-top: 0.25rem;
+}
+
+/* Card back styling */
+.card-back {
+  width: 3.5rem;
+  height: 5rem;
+  background-color: #1f2937;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Overlapping container */
+.overlap-container {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* Generic zone container */
+.zone {
+  width: 100%;
+  background-color: #2d3748;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.06);
+  max-width: 100%;
+}
+.zone-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.zone-title {
+  color: #fff;
+  font-weight: 700;
+}
+.zone-count {
+  color: #cbd5e0;
+}
+
+/* Pile zone styling */
+.pile-zone {
+  background-color: #2d3748;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  flex-shrink: 0;
+}
+.pile-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+.pile-title {
+  color: #fff;
+  font-weight: 700;
+}
+
+/* App-level layout */
+.app-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #1a202c;
+}
+.loading-text {
+  color: #fff;
+}
+.app-container {
+  background-color: #1a202c;
+  min-height: 100vh;
+  padding: 0.75rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 100%;
+}
+
+/* Row layouts */
+.row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+.row-start {
+  align-items: flex-start;
+}
+.flex-1 {
+  flex: 1;
+}
+.flex-2 {
+  flex: 2;
+}
+.flex-none {
+  flex: none;
+}
