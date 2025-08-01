@@ -4,12 +4,16 @@ import { OverlapContainer } from './OverlapContainer';
 import { CardView, CardBack } from './Card';
 import '../styles/game.css';
 
-/** Zona genérica para exibir uma coleção de cartas */
-const Zone: React.FC<{
+interface ZoneProps {
   title: string;
   cards: CardType[];
   faceDown?: boolean;
-}> = ({ title, cards, faceDown }) => (
+  /** Novo prop para handler de clique na carta */
+  onCardClick?: (cardId: string) => void;
+}
+
+/** Zona genérica para exibir uma coleção de cartas */
+const Zone: React.FC<ZoneProps> = ({ title, cards, faceDown, onCardClick }) => (
   <div className="zone">
     <div className="zone-header">
       <span className="zone-title">{title}</span>
@@ -19,7 +23,7 @@ const Zone: React.FC<{
       {cards.map(c =>
         faceDown
           ? <CardBack key={c.id} />
-          : <CardView key={c.id} card={c} />
+          : <CardView key={c.id} card={c} onClick={onCardClick} />
       )}
     </OverlapContainer>
   </div>

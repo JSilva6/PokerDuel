@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { Card as CardType } from '../game/PokerDuelGame';
+import Tooltip from './Tooltip';
 import '../styles/game.css';
 
-// Mapeamento de símbolos e classes de cor para cada naipe
+export interface CardViewProps {
+  card: CardType;
+  /** Handler recebido do App.tsx que recebe o ID da carta clicada */
+  onClick?: (cardId: CardType) => void;
+}
+
+// Símbolos e classes de cor por naipe
 const SuitIcons: Record<string, { symbol: string; colorClass: string }> = {
   hearts:   { symbol: '♥', colorClass: 'suit-hearts' },
   diamonds: { symbol: '♦', colorClass: 'suit-diamonds' },
@@ -10,18 +17,72 @@ const SuitIcons: Record<string, { symbol: string; colorClass: string }> = {
   spades:   { symbol: '♠', colorClass: 'suit-spades' },
 };
 
-/** Cartão virado para cima */
-export const CardView: React.FC<{ card: CardType }> = ({ card }) => {
+const suitEffects: Record<CardType['suit'], string> = {
+  hearts:   'Descartar duas Copas: Recupere 2 de Vida',
+  diamonds: 'Descartar duas Ouros: Compre 2 cartas (somente do baralho)',
+  spades:   'Descartar duas Espadas: Ambos perdem 2 de Vida (mínimo 1)',
+  clubs:    'Descartar duas Paus: O oponente descarta 1 carta aleatória',
+};
+
+const faceEffects: Record<CardType['rank'], string> = {
+  J: 'Valete: Seu próximo ataque causa +2 de dano',
+  Q: 'Dama: Olhe a mão do oponente e descarte uma carta dela',
+  K: 'Rei: Recupere qualquer carta do descarte para sua mão',
+  A: 'Ás: Descarte sua mão e compre o mesmo número de cartas do baralho',
+};
+
+const getTooltipLines = (card: CardType): string[] => {
+  const lines: string[] = [];
+  const faceText = faceEffects[card.rank];
+  const suitText = suitEffects[card.suit];
+  if (faceText) lines.push(faceText);
+  if (suitText) lines.push(suitText);
+  return lines;
+};
+
+/** Cartão virado para cima com tooltip e callback genérico */
+export const CardView: React.FC<CardViewProps> = ({ card, onClick }) => {
   const { symbol, colorClass } = SuitIcons[card.suit];
+  const [hover, setHover] = useState(false);
+  const [pos, setPos] = useState({ x: 0, y: 0 });
+  const lines = getTooltipLines(card);
+  const showBottom = pos.y > window.innerHeight * 0.7;
+
+  const handleMouseEnter = () => { if (lines.length) setHover(true); };
+  const handleMouseMove  = (e: React.MouseEvent) => {
+    if (lines.length) setPos({ x: e.clientX + 12, y: e.clientY + 12 });
+  };
+  const handleMouseLeave = () => setHover(false);
+  const handleClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onClick) onClick(card);
+  };
+
   return (
-    <div className="card">
-      <span className={`card-symbol ${colorClass}`}>{symbol}</span>
-      <span className={`card-rank ${colorClass}`}>{card.rank}</span>
+    <div
+      onMouseEnter={handleMouseEnter}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
+      style={{ display: 'inline-block', cursor: 'pointer' }}
+    >
+      <div className="card">
+        <span className={`card-symbol ${colorClass}`}>{symbol}</span>
+        <span className={`card-rank ${colorClass}`}>{card.rank}</span>
+      </div>
+      {hover && lines.length > 0 && (
+        <Tooltip
+          lines={lines}
+          x={pos.x}
+          y={pos.y}
+          bottom={showBottom}
+        />
+      )}
     </div>
   );
 };
 
-/** Cartão virado para baixo */
+/** Cartão virado para baixo (sem tooltip) */
 export const CardBack: React.FC = () => (
   <div className="card-back" />
 );

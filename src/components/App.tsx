@@ -84,7 +84,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Player 1 Hand */}
-      <Zone title="Player 1 Hand" cards={state.players.player1.hand} />
+      <Zone title="Player 1 Hand" cards={state.players.player1.hand} onCardClick={console.log}/>
     </div>
   );
 };

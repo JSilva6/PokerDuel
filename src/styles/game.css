@@ -2,41 +2,57 @@
 
 /* Card front styling */
 .card {
+  font-size: 1.75rem;
   width: 3.5rem;
   height: 5rem;
   background-color: #fff;
   border: 1px solid #374151;
   border-radius: 0.5rem;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  line-height: 1;
+  gap: .25rem;
 }
 .card-symbol {
-  font-size: 1.25rem;
+  font-size: 1.25em;
 }
 .card-rank {
   font-weight: 700;
-  margin-top: 0.25rem;
 }
 
 /* Card back styling */
 .card-back {
-  width: 3.5rem;
-  height: 5rem;
-  background-color: #1f2937;
+  width: 3.5rem;               /* 14 * 0.25rem */
+  height: 5rem;                /* 20 * 0.25rem */
+  background-color: #1e3a8a;   /* tom base azul escuro */
   border-radius: 0.5rem;
-  flex-shrink: 0;
+  border: 1px solid #374151;   /* cinza escuro */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+/* Padrão diagonal de listras */
+.card-back::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #1e3a8a 0,
+    #1e3a8a 4px,
+    #2563eb 4px,
+    #2563eb 8px
+  );
+  opacity: 0.75;
 }
 
 /* Overlapping container */
 .overlap-container {
   display: flex;
-  overflow: hidden;
   width: 100%;
 }
 
@@ -124,6 +140,7 @@
   flex: none;
 }
 
+/* Pile-specific flex container */
 .pile-flex {
   display: flex;
   flex: none;
@@ -131,7 +148,6 @@
   gap: 1rem;
   max-width: 100%;
 }
-
 
 /* Suit color classes */
 .suit-hearts {
@@ -146,3 +162,34 @@
 .suit-spades {
   color: #000000;
 }
+
+/* Tooltip styling */
+.tooltip {
+  position: fixed;
+  background-color: rgba(30, 30, 30, 0.95);
+  color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  pointer-events: none;
+  z-index: 1000;
+  max-width: 240px;
+  white-space: pre-wrap;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+  transition: opacity 0.1s ease-in-out;
+  opacity: 1;
+}
+.tooltip-divider {
+  width: 100%;
+  height: 1px;
+  background-color: #4b5563;
+  margin: 0.5rem 0;
+}
+
+/* Tooltip bottom alignment */
+/* .tooltip-bottom { */
+/*   transform: translateY(-50%); */
+/* } */
+

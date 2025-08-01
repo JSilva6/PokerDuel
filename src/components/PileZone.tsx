@@ -19,9 +19,9 @@ const PileZone: React.FC<{
       <div className="pile-header">
         <span className="pile-title">{title}</span>
       </div>
-      <div style={{ position: 'relative', width: 56, height: 80, top: -offset * 2, left: -offset * 2 }}>
+      <div style={{ position: 'relative', width: 56, height: 80, top: -offset * 2, left: offset * 2 }}>
         {offs.reverse().map(off => (
-          <div key={off} style={{ position: 'absolute', top: off, left: off, zIndex: 0 }}>
+          <div key={off} style={{ position: 'absolute', top: off, left: -off, zIndex: 0 }}>
             {top
               ? (faceDown ? <CardBack /> : <CardView card={top} />)
               : <div style={{ width: 56, height: 80 }} />

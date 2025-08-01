@@ -75,29 +75,3 @@ button:focus-visible {
   }
 }
 
-.card-back {
-  width: 3.5rem;               /* 14 * 0.25rem */
-  height: 5rem;                /* 20 * 0.25rem */
-  background-color: #1e3a8a;   /* tom base azul escuro */
-  border-radius: 0.5rem;
-  border: 1px solid #374151;   /* cinza escuro */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-  position: relative;
-  overflow: hidden;
-  margin: 0.25rem;
-}
-
-/* Padrão diagonal de listras */
-.card-back::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    45deg,
-    #1e3a8a 0,
-    #1e3a8a 4px,
-    #2563eb 4px,
-    #2563eb 8px
-  );
-  opacity: 0.75;
-}
