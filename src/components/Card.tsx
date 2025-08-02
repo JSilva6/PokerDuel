@@ -71,19 +71,14 @@ export const CardView: React.FC<CardViewProps> = ({ card, onClick }) => {
         <span className={`card-rank ${colorClass}`}>{card.rank}</span>
       </div>
       {hover && lines.length > 0 && (
-        <Tooltip
-          lines={lines}
-          x={pos.x}
-          y={pos.y}
-          bottom={showBottom}
-        />
+        <Tooltip lines={lines} x={pos.x} y={pos.y} bottom={showBottom} />
       )}
     </div>
   );
 };
 
 /** Cartão virado para baixo (sem tooltip) */
-export const CardBack: React.FC = () => (
-  <div className="card-back" />
+export const CardBack: React.FC<CardViewProps> = ({card, hidden = false}) => (
+  <div data-card-id={card.id} className={`card-back ${hidden ? 'hidden-card' : ''}`} />
 );
 
