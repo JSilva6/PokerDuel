@@ -188,8 +188,7 @@
   margin: 0.5rem 0;
 }
 
-/* Tooltip bottom alignment */
-/* .tooltip-bottom { */
-/*   transform: translateY(-50%); */
-/* } */
+.hidden-card {
+  opacity: 0 !important;
+}
 
