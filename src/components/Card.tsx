@@ -7,9 +7,9 @@ export interface CardViewProps {
   card: CardType;
   /** Handler recebido do App.tsx que recebe o ID da carta clicada */
   onClick?: (cardId: CardType) => void;
+  hidden?: boolean;
 }
 
-// Símbolos e classes de cor por naipe
 const SuitIcons: Record<string, { symbol: string; colorClass: string }> = {
   hearts:   { symbol: '♥', colorClass: 'suit-hearts' },
   diamonds: { symbol: '♦', colorClass: 'suit-diamonds' },
@@ -20,15 +20,15 @@ const SuitIcons: Record<string, { symbol: string; colorClass: string }> = {
 const suitEffects: Record<CardType['suit'], string> = {
   hearts:   'Descartar duas Copas: Recupere 2 de Vida',
   diamonds: 'Descartar duas Ouros: Compre 2 cartas (somente do baralho)',
-  spades:   'Descartar duas Espadas: Ambos perdem 2 de Vida (mínimo 1)',
-  clubs:    'Descartar duas Paus: O oponente descarta 1 carta aleatória',
+  spades:   'Descartar duas Espadas: Ambos perdem 2 de Vida',
+  clubs:    'Descartar duas Paus: Oponente descarta 1 carta',
 };
 
 const faceEffects: Record<CardType['rank'], string> = {
-  J: 'Valete: Seu próximo ataque causa +2 de dano',
   Q: 'Dama: Olhe a mão do oponente e descarte uma carta dela',
   K: 'Rei: Recupere qualquer carta do descarte para sua mão',
   A: 'Ás: Descarte sua mão e compre o mesmo número de cartas do baralho',
+  J: 'Valete: +2 de dano no próximo ataque',
 };
 
 const getTooltipLines = (card: CardType): string[] => {
@@ -41,7 +41,7 @@ const getTooltipLines = (card: CardType): string[] => {
 };
 
 /** Cartão virado para cima com tooltip e callback genérico */
-export const CardView: React.FC<CardViewProps> = ({ card, onClick }) => {
+export const CardView: React.FC<CardViewProps> = ({ card, onClick, hidden = false }) => {
   const { symbol, colorClass } = SuitIcons[card.suit];
   const [hover, setHover] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -81,4 +81,3 @@ export const CardView: React.FC<CardViewProps> = ({ card, onClick }) => {
 export const CardBack: React.FC<CardViewProps> = ({card, hidden = false}) => (
   <div data-card-id={card.id} className={`card-back ${hidden ? 'hidden-card' : ''}`} />
 );
-

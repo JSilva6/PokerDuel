@@ -16,7 +16,7 @@ const CentralZone: React.FC<{
     </div>
     <OverlapContainer count={faceUp.length + faceDown.length}>
       {faceUp.map(c => <CardView key={c.id} card={c} />)}
-      {faceDown.map(c => <CardBack key={c.id} />)}
+      {faceDown.map(c => <CardBack key={c.id} card={c} />)}
     </OverlapContainer>
   </div>
 );

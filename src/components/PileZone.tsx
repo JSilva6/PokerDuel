@@ -23,14 +23,14 @@ const PileZone: React.FC<{
         {offs.reverse().map(off => (
           <div key={off} style={{ position: 'absolute', top: off, left: -off, zIndex: 0 }}>
             {top
-              ? (faceDown ? <CardBack /> : <CardView card={top} />)
+              ? (faceDown ? <CardBack card={top}/> : <CardView card={top} />)
               : <div style={{ width: 56, height: 80 }} />
             }
           </div>
         ))}
         <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1 }}>
           {top
-            ? (faceDown ? <CardBack /> : <CardView card={top} />)
+            ? (faceDown ? <CardBack card={top}/> : <CardView card={top} />)
             : <div style={{ width: 56, height: 80 }} />
           }
         </div>
