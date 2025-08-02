@@ -24,7 +24,7 @@ const suitEffects: Record<CardType['suit'], string> = {
   clubs:    'Descartar duas Paus: Oponente descarta 1 carta',
 };
 
-const faceEffects: Record<CardType['rank'], string> = {
+const faceEffects: Partial<Record<CardType['rank'], string>> = {
   Q: 'Dama: Olhe a mão do oponente e descarte uma carta dela',
   K: 'Rei: Recupere qualquer carta do descarte para sua mão',
   A: 'Ás: Descarte sua mão e compre o mesmo número de cartas do baralho',
@@ -60,6 +60,8 @@ export const CardView: React.FC<CardViewProps> = ({ card, onClick, hidden = fals
 
   return (
     <div
+      id={card.id}
+      className={hidden ? 'hidden-card' : ''}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

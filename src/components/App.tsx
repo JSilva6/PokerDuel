@@ -7,6 +7,7 @@ import Zone from './Zone';
 import PileZone from './PileZone';
 import CentralZone from './CentralZone';
 import FightZone from './FightZone';
+import FloatingWindow from '../devComponents/FloatingWindow';
 
 const App: React.FC = () => {
   const [game] = useState(() => new PokerDuelGame());
@@ -31,6 +32,9 @@ const App: React.FC = () => {
 
   return (
     <div className="app-container">
+      <FloatingWindow width={300} height={200} initialX={100} initialY={150} title="Minha Janela">
+        <p>Conteúdo aqui dentro.</p>
+      </FloatingWindow>
       {/* Player 2 Hand */}
       <Zone title="Player 2 Hand" cards={state.players.player2.hand} />
 
