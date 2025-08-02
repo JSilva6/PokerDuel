@@ -10,6 +10,8 @@ import PileZone from './PileZone';
 import CentralZone from './CentralZone';
 import FightZone from './FightZone';
 import FloatingWindow from '../devComponents/FloatingWindow';
+import { AnimationManager } from '../animations/AnimationManager';
+import { MoveAnimation } from '../animations/MoveAnimation';
 
 type FaceDownCheckResult =
   | { allowed: true; selectedCard: Card }
@@ -17,8 +19,10 @@ type FaceDownCheckResult =
 
 const App: React.FC = () => {
   const [game] = useState(() => new PokerDuelGame());
+  const [animationManager] = useState(() => new AnimationManager());
   const [state, setState] = useState<GameState>();
   const [selectedCards, setSelectedCards] = useState<Set<string>>(new Set())
+  const [hiddenCards, setHiddenCards] = useState<Set<string>>(new Set())
 
   const selectCard = useCallback((card: Card) => {
     const setClone = new Set(selectedCards)
@@ -26,6 +30,22 @@ const App: React.FC = () => {
     else setClone.add(card.id)
     setSelectedCards(setClone)
   }, [selectedCards, setSelectedCards]);
+
+  const unselectCard = useCallback((card: Card) => {
+    const setClone = new Set(selectedCards)
+    setClone.delete(card.id)
+    setSelectedCards(setClone)
+  }, [selectedCards, setSelectedCards]);
+
+  const hideCard = useCallback((card: Card) => {
+    setHiddenCards(prev => new Set(prev).add(card.id))
+  }, [hiddenCards, setHiddenCards]);
+
+  const unhideCard = useCallback((card: Card) => {
+    const setClone = new Set(hiddenCards)
+    setClone.delete(card.id)
+    setHiddenCards(setClone)
+  }, [hiddenCards, setHiddenCards]);
 
   const faceDownAllowed = useCallback((): FaceDownCheckResult => {
     if (selectedCards.size !== 1) return { allowed: false, selectedCard: null };
@@ -44,10 +64,23 @@ const App: React.FC = () => {
   const placeFaceDown = useCallback(() => {
     const {allowed, selectedCard} = faceDownAllowed()
     if(allowed) {
-      console.log(selectedCard)
-      alert('opa')
+      animationManager.enqueue(new MoveAnimation({
+        cardID: selectedCard.id,
+        setup() {
+          unselectCard(selectedCard)
+        },
+        stateAction() {
+          game.placeCardFaceDown(selectedCard.id);
+          hideCard(selectedCard)
+          setState({ ...game.gameState });
+        },
+        cleanup() {
+          unhideCard(selectedCard)
+        },
+      }))
+      console.log(animationManager)
     }
-  }, [faceDownAllowed])
+  }, [faceDownAllowed, animationManager, unselectCard])
 
 
   useEffect(() => {
@@ -73,6 +106,7 @@ const App: React.FC = () => {
         {selectedCards.size >= 1 && <>
           {faceDownAllowed().allowed && <Button variant="contained" onClick={placeFaceDown}>Place Face-Down</Button>}
         </>}
+        {Array.from(selectedCards)}
       </FloatingWindow>
       {/* Player 2 Hand */}
       <Zone title="Player 2 Hand" cards={state.players.player2.hand} />
@@ -120,6 +154,7 @@ const App: React.FC = () => {
         <div className="flex-1">
           <Zone
             title="P1 Face-Down"
+            hiddenCards={Array.from(hiddenCards)}
             cards={state.players.player1.faceDownZone}
             faceDown
           />
