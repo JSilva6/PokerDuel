@@ -58,6 +58,7 @@ const FloatingWindow: React.FC<FloatingWindowProps> = ({
     <div
       ref={windowRef}
       style={{
+        color: 'black',
         position: 'absolute',
         top: position.y,
         left: position.x,

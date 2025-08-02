@@ -51,8 +51,8 @@ export class InvalidCombinationError extends GameError {
 }
 
 // Card definitions
-export type Suit = 'hearts' | 'diamonds' | 'clubs' | 'spades';
-export type Rank = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A';
+export type Suit = 'hearts' | 'diamonds' | 'clubs' | 'spades' | 'none';
+export type Rank = '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | '10' | 'J' | 'Q' | 'K' | 'A' | 'none';
 
 /**
  * Represents a single playing card
@@ -114,7 +114,7 @@ export default class PokerDuelGame {
   public gameState: GameState;
   private static suits: Suit[] = ['hearts', 'diamonds', 'clubs', 'spades'];
   private static ranks: Rank[] = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A'];
-  private static allowedFaceDownRanks: Rank[] = ['J', 'Q', 'K', 'A'];
+  public static allowedFaceDownRanks: Rank[] = ['J', 'Q', 'K', 'A'];
 
   /**
    * Initializes the game controller with empty state

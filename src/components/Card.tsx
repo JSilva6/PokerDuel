@@ -6,8 +6,9 @@ import '../styles/game.css';
 export interface CardViewProps {
   card: CardType;
   /** Handler recebido do App.tsx que recebe o ID da carta clicada */
-  onClick?: (cardId: CardType) => void;
+  onClick?: (card: CardType) => void;
   hidden?: boolean;
+  highlight?: boolean;
 }
 
 const SuitIcons: Record<string, { symbol: string; colorClass: string }> = {
@@ -17,7 +18,7 @@ const SuitIcons: Record<string, { symbol: string; colorClass: string }> = {
   spades:   { symbol: '♠', colorClass: 'suit-spades' },
 };
 
-const suitEffects: Record<CardType['suit'], string> = {
+const suitEffects: Partial<Record<CardType['suit'], string>> = {
   hearts:   'Descartar duas Copas: Recupere 2 de Vida',
   diamonds: 'Descartar duas Ouros: Compre 2 cartas (somente do baralho)',
   spades:   'Descartar duas Espadas: Ambos perdem 2 de Vida',
@@ -41,7 +42,7 @@ const getTooltipLines = (card: CardType): string[] => {
 };
 
 /** Cartão virado para cima com tooltip e callback genérico */
-export const CardView: React.FC<CardViewProps> = ({ card, onClick, hidden = false }) => {
+export const CardView: React.FC<CardViewProps> = ({ card, onClick, hidden = false, highlight = false }) => {
   const { symbol, colorClass } = SuitIcons[card.suit];
   const [hover, setHover] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
@@ -58,10 +59,14 @@ export const CardView: React.FC<CardViewProps> = ({ card, onClick, hidden = fals
     if (onClick) onClick(card);
   };
 
+  const classes = []
+  if(hidden) classes.push("hidden-card")
+  if(highlight) classes.push("highlight-card")
+
   return (
     <div
-      id={card.id}
-      className={hidden ? 'hidden-card' : ''}
+      data-card-id={card.id}
+      className={classes.join(" ")}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
