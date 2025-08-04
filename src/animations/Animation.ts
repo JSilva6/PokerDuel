@@ -8,17 +8,15 @@ export interface Animation {
 export interface AnimationParams {
   stateAction: () => void;
   cleanup: () => void;
-  setup?: () => void;
 }
 
 export abstract class BaseAnimation implements Animation {
   public stateAction: () => void;
   public cleanup: () => void;
 
-  constructor({ stateAction, cleanup, setup = () => {} }: AnimationParams) {
+  constructor({ stateAction, cleanup }: AnimationParams) {
     this.stateAction = stateAction;
     this.cleanup = cleanup;
-    setup();
   }
 
   abstract play(): Promise<void>;

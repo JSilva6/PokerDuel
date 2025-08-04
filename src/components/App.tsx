@@ -64,11 +64,10 @@ const App: React.FC = () => {
   const placeFaceDown = useCallback(() => {
     const {allowed, selectedCard} = faceDownAllowed()
     if(allowed) {
+      unselectCard(selectedCard);
+
       animationManager.enqueue(new MoveAnimation({
         cardID: selectedCard.id,
-        setup() {
-          unselectCard(selectedCard)
-        },
         stateAction() {
           game.placeCardFaceDown(selectedCard.id);
           hideCard(selectedCard)
